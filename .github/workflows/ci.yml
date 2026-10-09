@@ -20,7 +20,7 @@ jobs:
       matrix:
         python: ["3.8", "3.12"] # oldest supported and pinned development version
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
 
       - uses: actions/setup-python@v7
         with:
@@ -65,7 +65,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0 # gitleaks scans history
 
