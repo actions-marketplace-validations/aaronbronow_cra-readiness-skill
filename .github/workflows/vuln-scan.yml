@@ -19,7 +19,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - uses: actions/dependency-review-action@v5.0.0
         with:
           fail-on-severity: moderate
@@ -30,7 +30,7 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
 
       - name: Generate CycloneDX SBOM (Syft)
         uses: anchore/sbom-action@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3
@@ -57,7 +57,7 @@ jobs:
           output-format: table
 
       - name: Scan lockfiles with OSV-Scanner
-        uses: google/osv-scanner-action/osv-scanner-action@a345acffa64b0eaede81a3d9aae6141214d9c8fc # v2.6.0
+        uses: google/osv-scanner-action/osv-scanner-action@b1d267aea5211fa648d9d442fa64b90dbdcbdd36 # v2.7.0
         with:
           scan-args: |
             --lockfile=uv.lock
