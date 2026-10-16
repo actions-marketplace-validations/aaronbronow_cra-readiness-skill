@@ -15,6 +15,7 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -52,23 +53,35 @@ jobs:
           set -e
           for f in SKILL.md action.yml TESTING.md references/cra_matrix_40.json references/interview_guide.md \
                    templates/CRA.md templates/SECURITY.md templates/github-actions/cra-ci-sbom.yml \
-                   templates/github-actions/cra-audit.yml; do
+                   templates/github-actions/cra-audit.yml templates/github-actions/cra-chainguard-pipeline.yml; do
             test -s "$f" || { echo "missing $f"; exit 1; }
           done
           # SKILL.md frontmatter must declare a name and description
           head -5 SKILL.md | grep -q '^name: ' && head -5 SKILL.md | grep -q '^description: '
           echo "references and templates OK"
 
+  ledger:
+    name: ledger
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Verify Packablock supply-chain ledger integrity
-        run: bunx github:Packablock/packablock-client check packablock.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bunx --bun github:Packablock/packablock-client check packablock.yaml
 
   secrets:
     name: secrets
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
     permissions:
       contents: read
     steps:
