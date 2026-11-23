@@ -22,7 +22,7 @@ jobs:
     name: python-eol
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
 
       - name: Check pinned Python against endoflife.date
         shell: bash
